@@ -1,8 +1,7 @@
 package commandOutputs.userOutput;
 
 import cfgService.objects.Grammar;
-import cfgService.objects.Language;
-import cfgService.objects.Terminal;
+import cfgService.objects.RightHandSide;
 import cfgService.objects.collections.GrammarManager;
 import commandOutputs.loggers.MathematicalLogger;
 
@@ -45,7 +44,7 @@ public class CFGOperationsOutput {
                       .map(String::valueOf)
                       .collect(Collectors.joining(""))*/
                         + rule.getRightSide().stream()
-                        .map(Language::getSymbol)
+                        .map(RightHandSide::getSymbol)
                         .map(String::valueOf)
                         .collect(Collectors.joining(""))
                 + "\n"
@@ -58,19 +57,23 @@ public class CFGOperationsOutput {
     }
 
     public static void unionFeedback(int id) {
-        System.out.printf("The identifier of the newly created Grammar (after union)\n is: %d%n", id);
+        System.out.printf("The identifier of the newly created Grammar (after union) is: %d%n%n", id);
     }
 
     public static void concatFeedback(int id) {
-        System.out.printf("The identifier of the newly created Grammar (after concatenation)\n is: %d%n", id);
+        System.out.printf("The identifier of the newly created Grammar (after concatenation) is: %d%n%n", id);
     }
 
     public static void chomsky(int id) {
-        System.out.printf("The Grammar №%d is in Chomsky Normal Form.$%n", id);
+        System.out.printf("The Grammar №%d is in Chomsky Normal Form.%n%n", id);
     }
 
     public static void nonChomskyForm(int id) {
-        System.out.printf("The Grammar №%d does not Chomsky Normal Form criteria.%n", id);
+        System.out.printf("Grammar №%d DOES NOT cover the Chomsky Normal Form criteria.%n%n", id);
+    }
+
+    public static void chomskifiedGrammar(int id) {
+        System.out.printf("%nThe identifier of the newly created Grammar that has been transferred in CNF: %d%n%n", id);
     }
 
 }

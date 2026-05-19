@@ -2,7 +2,7 @@ package cfgService.objects;
 
 import java.util.Objects;
 
-public class Terminal extends Language {
+public class Terminal extends RightHandSide {
     private Character terminalSymbol;  // lower letter or number
 
     public Terminal(Character terminalSymbol, Grammar grammar) {

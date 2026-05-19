@@ -4,8 +4,8 @@ import fileServices.FileService;
 
 public class FileOperations {
 
-    public static void open(String filename) {
-        FileService.open(filename);    // execute open file
+    public static void open(String directory) {
+        FileService.open(directory);    // execute open file
     }
 
     public static void close() {

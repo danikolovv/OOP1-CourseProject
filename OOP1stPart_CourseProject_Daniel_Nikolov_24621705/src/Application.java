@@ -1,5 +1,6 @@
 import cfgService.operations.CFGOperations;
 import cfgService.operations.FileOperations;
+import fileServices.FileManager;
 import fileServices.FileService;
 
 import java.util.Arrays;
@@ -12,10 +13,30 @@ public class Application {
 
         Scanner scanner = new Scanner(System.in);
 
+        String line = scanner.nextLine();
+        String[] input = line.split(" ");
+
+        int count = 0;
+        while (!input[0].equals("open")) {
+            if (count < 1)
+                System.out.println("Please first open file!");      // do not print same command several times
+            line = scanner.nextLine();
+            input = line.split(" ");
+            count++;
+        }
+
+        FileService.open(input[1]);
+
+        // Guard Clause for all other commands
+        if (!FileManager.isFileLoaded()) {
+            System.out.println("Error: You must 'open' a file before executing commands.");
+            return;
+        }
+
         // main commands loop parser
         while (scanner.hasNext()) {
-            String line = scanner.nextLine();
-            String[] input = line.split(" ");
+            line = scanner.nextLine();
+            input = line.split(" ");
 
             switch (input[0]) {
                 // File operations
@@ -66,10 +87,10 @@ public class Application {
                     CFGOperations.chomsky(Integer.parseInt(input[1]));
                     break;
                 case "cyk":
-                    CFGOperations.cyk(Integer.parseInt(input[1]));
+                    CFGOperations.cyk(Integer.parseInt(input[1]), input[2]);
                     break;
                 case "iter":
-                    CFGOperations.iter(Integer.parseInt(input[1]));
+                    CFGOperations.iter(Integer.parseInt(input[1]));     // to be implemented
                     break;
                 case "empty":
                     CFGOperations.empty(Integer.parseInt(input[1]));

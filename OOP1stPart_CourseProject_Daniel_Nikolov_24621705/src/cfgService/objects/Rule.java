@@ -10,10 +10,10 @@ public class Rule {
     //private Map<Terminal, List<NonTerminal>> rules;
 
     private NonTerminal nonTerminal;
-    private List<Language> rightSide;
+    private List<RightHandSide> rightSide;
     private int consecutiveNumber;
 
-    public Rule(NonTerminal nonTerminal, List<Language> rightSide, Grammar grammar) {
+    public Rule(NonTerminal nonTerminal, List<RightHandSide> rightSide, Grammar grammar) {
         this.consecutiveNumber = grammar.getRules().size() + 1;
         this.rightSide = new ArrayList<>();
         this.setNonTerminal(nonTerminal);
@@ -26,7 +26,7 @@ public class Rule {
         return this.nonTerminal;
     }
 
-    public List<Language> getRightSide() {
+    public List<RightHandSide> getRightSide() {
         return this.rightSide;
     }
 
@@ -44,7 +44,7 @@ public class Rule {
 
 
 
-    public void addRightSideSymbols(List<Language> rightSide) {
+    public void addRightSideSymbols(List<RightHandSide> rightSide) {
         if (rightSide == null) {
             throw new NullPointerException("Error! Terminals passed when creating a rule were null. -> class Rule, List<Terminal> terminals");
         }

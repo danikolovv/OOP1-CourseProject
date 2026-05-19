@@ -2,7 +2,7 @@ package cfgService.objects;
 
 import java.util.Objects;
 
-public class NonTerminal extends Language {
+public class NonTerminal extends RightHandSide {
     private Character nonTerminalSymbol;    // capital letter
 
     public NonTerminal(Character nonTerminalSymbol, Grammar grammar) {

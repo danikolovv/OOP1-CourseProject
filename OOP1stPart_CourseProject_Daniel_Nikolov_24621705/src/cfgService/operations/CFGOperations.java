@@ -63,23 +63,25 @@ public class CFGOperations {
     }
 
     // cyk <id>
-    public static void cyk(int id) {
-        CFGParser.cyk(id);
+    public static void cyk(int id, String input) {
+        CFGParser.cyk(id, input);
     }
 
     // iter <id>
     public static void iter(int id) {
-
+        CFGParser.iter(id);
     }
 
     // empty <id>
     public static void empty(int id) {
-
+        CFGParser.empty(id);
     }
 
     // chomskify <id>
     public static void chomskify(int id) {
+        int newGrammarId = CFGParser.chomskify(id);
 
+        CFGOperationsOutput.chomskifiedGrammar(newGrammarId);
     }
 
 }
