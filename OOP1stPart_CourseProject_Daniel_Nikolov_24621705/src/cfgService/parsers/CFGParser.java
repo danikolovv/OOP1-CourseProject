@@ -3,7 +3,7 @@ package cfgService.parsers;
 import cfgService.objects.*;
 import cfgService.objects.collections.GrammarManager;
 import commandOutputs.loggers.Logger;
-import commandOutputs.loggers.OperationFailedVars;
+import commandOutputs.loggers.loggerFlags.OperationFailedVars;
 import commandOutputs.userOutput.CFGOperationsOutput;
 
 import java.util.*;
@@ -11,6 +11,14 @@ import java.util.stream.Collectors;
 
 public class CFGParser {
 
+    /**
+     * <span>
+     * Extracts raw string input array tokens, splits them into structural terminal or non-terminal objects, and attaches a new production rule instance to the grammar memory.
+     * </span>
+     * <br><br>
+     * Params: int id, String... tokens
+     * @return (void)
+     */
     public static void parseRuleInput(int id, String... tokens) {
         GrammarManager grammarManager = GrammarManager.getInstance();
         Grammar grammar = grammarManager.getGrammar(id);
@@ -45,7 +53,16 @@ public class CFGParser {
         checkIsEmptyRule(grammar);  // check if all the rules eventually lead only to terminals
     }
 
-    // check if every NonTerminal on right contains terminals / non-terminals -> every non-terminal should lead to terminals, if not signal
+    /**
+     * <span>
+     * Computes the subset of language variables that successfully derive terminals using an iterative fixed-point loop to detect unproductive structural circular dependencies.
+     * </span>
+     * <br><br>
+     * Params: Grammar grammar
+     * @return (void)
+     */
+    // check if every NonTerminal on right contains terminals / non-terminals
+    //   -> every non-terminal should lead to terminals, if not signal
     public static void checkIsEmptyRule(Grammar grammar) {
         Set<Character> productiveSymbols = new HashSet<>();     // set of non-terminals that have been proven to produce terminals
         boolean changed = true;
@@ -85,6 +102,14 @@ public class CFGParser {
         verifyAllProductive(grammar, productiveSymbols);
     }
 
+    /**
+     * <span>
+     * Performs a comprehensive compliance check across all discovered rule variables and logs granular diagnostic evaluation summaries regarding symbol generation traits to the console screen.
+     * </span>
+     * <br><br>
+     * Params: Grammar grammar, Set&lt;Character&gt; productiveSymbols
+     * @return (void)
+     */
     // collect every unique non-terminal defined in the grammar
     public static void verifyAllProductive(Grammar grammar, Set<Character> productiveSymbols) {
         Set<Character> allNonTerminals = new HashSet<>();
@@ -117,6 +142,14 @@ public class CFGParser {
         }
     }
 
+    /**
+     * <span>
+     * Iterates over a designated non-terminal rule chain to isolate and display the specific blocking variable dependents that are triggering language generation faults.
+     * </span>
+     * <br><br>
+     * Params: Character character, Grammar grammar, Set&lt;Character&gt; productiveSymbols
+     * @return (void)
+     */
     private static void findBlockingSymbols(Character character, Grammar grammar, Set<Character> productiveSymbols) {
         for (Rule rule : grammar.getRules()) {
             if (rule.getNonTerminal().getSymbol() == character) {
@@ -138,8 +171,14 @@ public class CFGParser {
     }
 
 
-
-
+    /**
+     * <span>
+     * Matches a visual user display list selection index with its corresponding internal storage pointer position to safely drop a target rule object from memory arrays.
+     * </span>
+     * <br><br>
+     * Params: int id, int displayIndex
+     * @return (void)
+     */
     public static void parseRemoveRule(int id, int displayIndex) {
         Grammar grammar = GrammarManager.getInstance().getGrammar(id);
         if (grammar == null) return;
@@ -164,7 +203,14 @@ public class CFGParser {
         }
     }
 
-
+    /**
+     * <span>
+     * Flushes old contextual configurations and performs a deep analysis of all rule components to refresh active non-terminal and terminal tracker collections.
+     * </span>
+     * <br><br>
+     * Params: Grammar grammar
+     * @return (void)
+     */
     private static void refreshGrammarSymbols(Grammar grammar) {
         grammar.getTerminals().clear();
         grammar.getNonTerminals().clear();
@@ -188,7 +234,14 @@ public class CFGParser {
 
 
 
-
+    /**
+     * <span>
+     * Computes the language intersection vectors between two distinct context-free grammars and instantiates a newly unified instance containing the merged production models.
+     * </span>
+     * <br><br>
+     * Params: int id1, int id2
+     * @return (void)
+     */
     public static void union(int id1, int id2) {
 
         GrammarManager grammarManager = GrammarManager.getInstance();
@@ -247,6 +300,14 @@ public class CFGParser {
         }
     }
 
+    /**
+     * <span>
+     * Filters, isolates, and aggregates all valid production rules whose structural terminal and non-terminal constituents are mutually shared within the integrated grammar intersection bounds.
+     * </span>
+     * <br><br>
+     * Params: GrammarManager grammarManager, Grammar unionGrammar, int id1, int id2
+     * @return Set&lt;Rule&gt;
+     */
     public static Set<Rule> getUnionRules(GrammarManager grammarManager, Grammar unionGrammar, int id1, int id2) {
         boolean isContained = false;
         Set<Rule> ruleUnion = new LinkedHashSet<>();
@@ -297,8 +358,14 @@ public class CFGParser {
 
 
 
-
-
+    /**
+     * <span>
+     * Links two independent grammar configurations sequentially, pooling their cumulative rule collections, variable sets, and terminal alphabets into a fresh concatenation output instance.
+     * </span>
+     * <br><br>
+     * Params: int id1, int id2
+     * @return (void)
+     */
     public static void concat(int id1, int id2) {
 
         GrammarManager grammarManager = GrammarManager.getInstance();
@@ -356,7 +423,14 @@ public class CFGParser {
 
 
 
-
+    /**
+     * <span>
+     * Evaluates all production rules of a grammar to verify strict structural alignment with Chomsky Normal Form standards.
+     * </span>
+     * <br><br>
+     * Params: int id
+     * @return boolean
+     */
     public static boolean chomsky(int id) {
         GrammarManager grammarManager = GrammarManager.getInstance();
 
@@ -404,7 +478,14 @@ public class CFGParser {
 
 
 
-
+    /**
+     * <span>
+     * Initiates the membership parsing process for an input string after enforcing Chomsky Normal Form structural prerequisites.
+     * </span>
+     * <br><br>
+     * Params: int id, String input
+     * @return (void)
+     */
     public static void cyk(int id, String input) {
         GrammarManager grammarManager = GrammarManager.getInstance();
         Grammar grammar = grammarManager.getGrammar(id);
@@ -423,6 +504,14 @@ public class CFGParser {
         }
     }
 
+    /**
+     * <span>
+     * Executes the Cocke-Younger-Kasami dynamic programming parsing table algorithm to determine linguistic string membership.
+     * </span>
+     * <br><br>
+     * Params: Grammar grammar, String input
+     * @return boolean
+     */
     public static boolean executeCYK(Grammar grammar, String input) {
         int n = input.length();
         if (n == 0)
@@ -481,16 +570,81 @@ public class CFGParser {
     }
 
 
-
-
+    /**
+     * <span>
+     * Computes the Kleene star closure iteration of a designated grammar by injecting an insulated start symbol capable of repeating language loops or deriving epsilon.
+     * </span>
+     * <br><br>
+     * Params: int id
+     * @return (void)
+     */
     public static void iter(int id) {
+        GrammarManager grammarManager = GrammarManager.getInstance();
+        Grammar originalGrammar = grammarManager.getGrammar(id);
 
+        if (originalGrammar == null) {
+            System.out.println("Error: Grammar with ID " + id + " does not exist.");
+            return;
+        }
+
+        // 1. Create a new grammar instance using your internal auto-increment ID sequence logic
+        int newId = grammarManager.getAllGrammars().getLast().getValue().getId() + 1;
+        Grammar newGrammar = new Grammar(newId, grammarManager);
+
+        // 2. Clone all existing rules from the original grammar into the new grammar space
+        for (Rule oldRule : originalGrammar.getRules()) {
+            NonTerminal newLhs = new NonTerminal(oldRule.getNonTerminal().getSymbol(), newGrammar);
+
+            List<RightHandSide> newRhs = new ArrayList<>();
+            for (RightHandSide component : oldRule.getRightSide()) {
+                if (Character.isUpperCase(component.getSymbol())) {
+                    newRhs.add(new NonTerminal(component.getSymbol(), newGrammar));
+                } else {
+                    newRhs.add(new Terminal(component.getSymbol(), newGrammar));
+                }
+            }
+
+            newGrammar.getRules().add(new Rule(newLhs, newRhs, newGrammar));
+        }
+
+        // 3. Resolve the original start symbol safely from the first production rule
+        char oldStartSymbolChar = 'S'; // Fallback baseline
+        if (originalGrammar.getRules() != null && !originalGrammar.getRules().isEmpty()) {
+            oldStartSymbolChar = originalGrammar.getRules().iterator().next().getNonTerminal().getSymbol();
+        }
+        NonTerminal oldStartSymbolRef = new NonTerminal(oldStartSymbolChar, newGrammar);
+
+        // 4. Define the brand new iteration start symbol (e.g., 'I' or an unused character)
+        char newStartSymbolChar = 'I';
+        NonTerminal newStartSymbol = new NonTerminal(newStartSymbolChar, newGrammar);
+
+        // 5. rule 1: I -> S I (Allows repetition of the original language sequences)
+        List<RightHandSide> repeatRhs = new ArrayList<>();
+        repeatRhs.add(oldStartSymbolRef);
+        repeatRhs.add(newStartSymbol);
+        newGrammar.getRules().add(new Rule(newStartSymbol, repeatRhs, newGrammar));
+
+        // 6. rule 2: I -> e (Allows empty sequence generation, fulfilling Kleene Star criterion)
+        List<RightHandSide> emptyRhs = new ArrayList<>();
+        emptyRhs.add(new Terminal('e', newGrammar)); // 'e' represents your epsilon character variable
+        newGrammar.getRules().add(new Rule(newStartSymbol, emptyRhs, newGrammar));
+
+        // 7. Refresh rule listings internally and report the assigned output ID
+        newGrammar.updateRules();
+
+        System.out.println(newGrammar.getId());
     }
 
 
 
-
-
+    /**
+     * <span>
+     * Evaluates whether the language defined by a grammar contains any terminal strings by verifying if its start symbol is capable of deriving terminals.
+     * </span>
+     * <br><br>
+     * Params: int id
+     * @return (void)
+     */
     public static void empty(int id) {
         GrammarManager grammarManager = GrammarManager.getInstance();
         Grammar grammar = grammarManager.getGrammar(id);
@@ -517,6 +671,14 @@ public class CFGParser {
 
     }
 
+    /**
+     * <span>
+     * Computes the mathematical set of all productive variable characters that can successfully terminate into string elements using a fixed-point loop.
+     * </span>
+     * <br><br>
+     * Params: Grammar grammar
+     * @return Set&lt;Character&gt;
+     */
     private static Set<Character> getProductiveSymbols(Grammar grammar) {
         Set<Character> productive = new HashSet<>();
         boolean changed = true;
@@ -547,7 +709,14 @@ public class CFGParser {
     }
 
 
-
+    /**
+     * <span>
+     * Normalizes a loose context-free grammar model into Chomsky Normal Form by isolating terminal components and executing binary rule segmentations.
+     * </span>
+     * <br><br>
+     * Params: int id
+     * @return int
+     */
     public static int chomskify(int id) {
         GrammarManager grammarManager = GrammarManager.getInstance();
         Grammar original = grammarManager.getGrammar(id);
@@ -573,6 +742,14 @@ public class CFGParser {
         return newId;
     }
 
+    /**
+     * <span>
+     * Replaces raw terminal characters embedded inside complex multi-symbol production chains with substitute non-terminal variables and registers their corresponding mappings.
+     * </span>
+     * <br><br>
+     * Params: Set&lt;Rule&gt; rules, Grammar grammar
+     * @return Set&lt;Rule&gt;
+     */
     private static Set<Rule> simplifyTerminals(Set<Rule> rules, Grammar grammar) {
         Set<Rule> nextRules = new LinkedHashSet<>();
 
@@ -608,6 +785,14 @@ public class CFGParser {
         return nextRules;
     }
 
+    /**
+     * <span>
+     * Breaks down long production strings containing more than two elements into standard binary chains by injecting temporary structural dummy variables.
+     * </span>
+     * <br><br>
+     * Params: Set&lt;Rule&gt; rules, Grammar grammar
+     * @return Set&lt;Rule&gt;
+     */
     private static Set<Rule> binarySplit(Set<Rule> rules, Grammar grammar) {
         Set<Rule> nextRules = new LinkedHashSet<>();
         int dummyCount = 1;

@@ -1,10 +1,9 @@
 import cfgService.operations.CFGOperations;
 import cfgService.operations.FileOperations;
-import fileServices.FileManager;
-import fileServices.FileService;
+import fileService.FileManager;
+import fileService.FileService;
 
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Application {
@@ -61,14 +60,19 @@ public class Application {
                     CFGOperations.print(Integer.parseInt(input[1]));
                     break;
                 case "save":
-                    if (Objects.equals(input[1], "as")) {       // File operation
+                    if (input.length == 1) {
+                        FileOperations.save();
+                    }
+                    else if (input.length >= 3 && "as".equalsIgnoreCase(input[1])) {
                         FileOperations.saveAs(input[2]);
                     }
-                    else if (!Objects.equals(input[1], null)) {
-                        CFGOperations.save(Integer.parseInt(input[1]), input[2]);   // save grammar in a file
-                    }
-                    else {                                         // File operations
-                        FileOperations.save();
+                    else if (input.length >= 3) {
+                        try {
+                            int grammarId = Integer.parseInt(input[1]);
+                            CFGOperations.save(grammarId, input[2]);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Error: Invalid grammar ID format. Expected an integer.");
+                        }
                     }
                     break;
                 case "addRule":

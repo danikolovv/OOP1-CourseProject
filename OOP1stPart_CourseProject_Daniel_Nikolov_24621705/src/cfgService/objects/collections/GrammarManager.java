@@ -52,4 +52,12 @@ public class GrammarManager {
         return grammars.entrySet().stream().toList();
     }
 
+    public List<Grammar> getGrammarValuesOnly() {
+        return grammars.values().stream().toList();
+    }
+
+    public void clearPresentData() {
+        grammars.clear();
+    }
+
 }
